@@ -284,12 +284,12 @@ void Model::Model::draw(const glm::mat4& view_projection, Shader* shader) const{
         }
 
         // normal map
-        if(sm.mat.tex_Bump) {
-            shader->set_texture("normalMap", sm.mat.tex_Bump, GL_TEXTURE3);
-            shader->set_bool   ("useNormalMap", true);
-        } else {
-            shader->set_bool("useNormalMap", false);
-        }
+        //if(sm.mat.tex_Bump) {
+        //    shader->set_texture("normalMap", sm.mat.tex_Bump, GL_TEXTURE3);
+        //    shader->set_bool   ("useNormalMap", true);
+        //} else {
+        //    shader->set_bool("useNormalMap", false);
+        //}
 
         void* offsetPtr = (void*)(sm.index_offset * sizeof(GLuint));
         glDrawElements(GL_TRIANGLES, sm.index_count, GL_UNSIGNED_INT, offsetPtr);
@@ -298,6 +298,10 @@ void Model::Model::draw(const glm::mat4& view_projection, Shader* shader) const{
 }
 
 void Model::Model::draw_depth(Shader* shader) const {
+
+    glEnable(GL_CULL_FACE);
+    glCullFace(GL_FRONT);
+    glColorMask(GL_FALSE, GL_FALSE, GL_FALSE, GL_FALSE);
 
     shader->set_mat4("uModel", world_transform);
     glBindVertexArray(vao);
@@ -310,6 +314,8 @@ void Model::Model::draw_depth(Shader* shader) const {
             offset_ptr
         );
     }
+    glCullFace(GL_BACK);
+    glColorMask(GL_TRUE,  GL_TRUE,  GL_TRUE,  GL_TRUE);
     glBindVertexArray(0);
 }
 
