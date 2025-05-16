@@ -140,3 +140,35 @@ add_dependencies(opengl_app copy_models)
 #         COMMAND ${CMAKE_COMMAND} -E make_directory "${MODEL_DST_DIR}"
 #         COMMAND ${CMAKE_COMMAND} -E copy ${MODEL_FILE} "${MODEL_DST_DIR}")
 # endforeach()
+
+##############
+# DRAW MINIMAPS EXECUTABLE
+##############
+
+add_executable(draw_minimaps_main
+    src/draw_minimaps_main.cpp
+    src/SceneManager.cpp
+    src/OBJLoader.cpp
+    src/Camera.cpp
+    src/Model.cpp
+    src/Shader.cpp
+    src/data-structures/Light.cpp
+)
+
+target_include_directories(draw_minimaps_main PRIVATE
+    ${OPENGL_INCLUDE_DIR}
+    ${SDL2_INCLUDE_DIRS}
+    ${GLEW_INCLUDE_DIRS}
+    /usr/include/glm
+    ${CMAKE_CURRENT_SOURCE_DIR}/src
+    ${CMAKE_CURRENT_SOURCE_DIR}/src/data-structures
+)
+
+target_link_libraries(draw_minimaps_main PRIVATE
+    ${OPENGL_LIBRARIES}
+    ${SDL2_LIBRARIES}
+    GLEW::glew
+    glm::glm
+)
+
+add_dependencies(draw_minimaps_main copy_shaders copy_models)
