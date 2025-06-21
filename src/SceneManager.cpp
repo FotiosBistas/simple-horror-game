@@ -532,11 +532,11 @@ Game::SceneManager::SceneManager(int width, int height, Camera::CameraObj camera
 }
 
 Game::SceneManager::~SceneManager() {
+    shaders.clear();
+    game_state->clear_models();
+    game_state->clear_lights();
     SDL_GL_DeleteContext(glCtx);
     SDL_DestroyWindow(window);
     Mix_CloseAudio();
     SDL_Quit();
-    shaders.clear();
-    game_state->clear_models();
-    game_state->clear_lights();
 }

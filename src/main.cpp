@@ -297,7 +297,7 @@ int main() {
         10.0f,                            // 18: light_power
         true,                            // 19: is_on
         "flashlight",                    // 20: label
-        glm::vec3(1.0f)                  // 21: color
+        glm::vec3(0.0f, 1.0f, 0.0f)                  // 21: color
     );
 
     Light spotlight(

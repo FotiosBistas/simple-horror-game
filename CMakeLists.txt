@@ -20,8 +20,9 @@ set(SOURCES
     src/Model.cpp
     src/Shader.cpp
     src/data-structures/Light.cpp
-        src/Group.cpp
-        src/Monster.cpp
+    src/data-structures/Occluder.cpp
+    src/Group.cpp
+    src/Monster.cpp
 )
 
 find_package(OpenGL REQUIRED)

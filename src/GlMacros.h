@@ -4,9 +4,9 @@
 #include <iostream>
 #define ASSERT(x) assert(x)
 #define GLCall(x)                                                                                  \
-    GLClearError();                                                                                \
+    GlHelpers::GLClearError();                                                                                \
     x;                                                                                             \
-    ASSERT(GLLogCall(#x, __FILE__, __LINE__))
+    ASSERT(GlHelpers::GLLogCall(#x, __FILE__, __LINE__))
 
 namespace GlHelpers {
 

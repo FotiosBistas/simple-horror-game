@@ -12,9 +12,11 @@
 #include <memory>
 #include <optional>
 #include <sstream>
-#include "TextRenderer.h"
 #include <string>
+#include "TextRenderer.h"
 #include "Monster.h"
+#include "Occluder.h"
+
 // REWRITE 1: Use instance suffix-based identification for interaction
 // This avoids incorrect handler dispatch after vector shifts due to instance removal
 namespace Game {
@@ -57,6 +59,7 @@ namespace Game {
 
         unsigned int pages_collected = 0;
         unsigned int pages_collected_to_win = 6;
+
         void clear_models() {
             models.clear();          // the unique_ptrs—and hence the Model objects—are destroyed
             model_names.clear();     // clear the name list
@@ -68,6 +71,13 @@ namespace Game {
             light_names.clear();
             light_indices.clear();
         }
+
+        void clear_occluders(){
+            occluders.clear();
+            occluder_names.clear();
+            occluder_indices.clear();
+        }
+
     private:
         std::vector<std::unique_ptr<Models::Model>> models;
         std::vector<std::string>                   model_names;
@@ -76,6 +86,10 @@ namespace Game {
         std::vector<std::unique_ptr<Light>> lights;
         std::vector<std::string>           light_names;
         std::unordered_map<std::string, size_t> light_indices;
+
+        std::vector<std::unique_ptr<Occluder>> occluders;
+        std::vector<std::string>               occluder_names;
+        std::unordered_map<std::string, size_t>    occluder_indices;
     };
 
     class SceneManager {
