@@ -1,6 +1,10 @@
 #include "Occluder.h"
 
-Occluder::Occluder(size_t screen_width, size_t screen_height){
+Occluder::Occluder(
+    size_t screen_width, 
+    size_t screen_height,
+    std::shared_ptr<Models::Model> occluder
+){
 
     GLCall(glGenTextures(1, &depth_map));
     GLCall(glBindTexture(GL_TEXTURE_2D, depth_map));
@@ -26,6 +30,8 @@ Occluder::Occluder(size_t screen_width, size_t screen_height){
 
     this->screen_width = screen_width; 
     this->screen_height = screen_height;
+
+    set_occluder(occluder);
 }
 
 

@@ -18,7 +18,7 @@ private:
     size_t screen_height;
 public:
 
-    Occluder(size_t screen_width, size_t screen_height);
+    Occluder(size_t screen_width, size_t screen_height, std::shared_ptr<Models::Model> occluder);
 
     void initiliaze_occludees(const std::vector<std::shared_ptr<Models::Model>>& model);
 

@@ -410,6 +410,10 @@ int main() {
     overhead_point_light_model.set_local_transform(
         glm::translate(glm::mat4(1.0f), pointlight.get_position()));
 
+    //TODO hardcoded screen size
+    auto wall_occluder = std::make_unique<Occluder>(1280, 720, wall);
+    game_state.add_occluder(std::move(wall_occluder), "wall");
+
     // ROOMS
     float     room_size   = 10.0f;
     auto      door_scale  = glm::vec3(1.3f, 1.45f, 1.3f);
