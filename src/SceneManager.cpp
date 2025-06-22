@@ -229,6 +229,13 @@ void Game::SceneManager::run_game_loop() {
     }
 
     Mix_Chunk* footsteps_music = Mix_LoadWAV("assets/audio/footsteps.mp3");
+
+    for(auto& occluder: game_state->get_occluders()){
+        for(auto& model: game_state->get_models()){
+            occluder->add_occludee(model);
+        }
+    }
+
     auto  monster_initial_position = glm::vec3(5.0f, 0.0f, 5.0f);
     last_monster_transform         = glm::translate(glm::mat4(1.0f), monster_initial_position);
     auto monster_init              = Models::Model("assets/models/monster.obj", "monster");

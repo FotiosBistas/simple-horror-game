@@ -8,6 +8,8 @@ Occluder::Occluder(
 
     GLCall(glGenTextures(1, &depth_map));
     GLCall(glBindTexture(GL_TEXTURE_2D, depth_map));
+    GLCall(glGenFramebuffers(1, &depth_map_fbo));
+    GLCall(glBindFramebuffer(GL_FRAMEBUFFER, depth_map_fbo));
     GLCall(glTexImage2D(GL_TEXTURE_2D, 0, GL_DEPTH_COMPONENT, screen_width, screen_height, 0,
                         GL_DEPTH_COMPONENT, GL_FLOAT, nullptr));
     GLCall(glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST));

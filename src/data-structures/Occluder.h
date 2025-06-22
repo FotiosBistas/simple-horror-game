@@ -26,11 +26,20 @@ public:
         this->occluder = model;
     }
 
+    inline void set_model_as_occluder(std::shared_ptr<Models::Model>& model) {
+        model->set_is_occluder(true);
+    }
+
     inline std::weak_ptr<Models::Model> get_occluder() const{
         return occluder;
     }
 
     inline void add_occludee(std::weak_ptr<Models::Model> model){
+        auto model_sptr = model.lock();
+        auto occluder_model_sptr = occluder.lock();
+        if(model_sptr->name() == occluder_model_sptr->name()){
+            return;
+        }
         occludees.push_back(model);
     }
 

@@ -411,7 +411,8 @@ int main() {
         glm::translate(glm::mat4(1.0f), pointlight.get_position()));
 
     //TODO hardcoded screen size
-    auto wall_occluder = std::make_unique<Occluder>(1280, 720, wall);
+    auto wall_ptr = std::make_shared<Models::Model>(std::move(wall));
+    auto wall_occluder = std::make_unique<Occluder>(1280, 720, wall_ptr);
     game_state.add_occluder(std::move(wall_occluder), "wall");
 
     // ROOMS

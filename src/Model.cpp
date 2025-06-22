@@ -655,6 +655,10 @@ void Models::Model::update_instance_data(){
             continue;
         }
 
+        if(is_occluded()){
+            continue;
+        }
+
         active.push_back(instance_transforms[i]);
     }
 

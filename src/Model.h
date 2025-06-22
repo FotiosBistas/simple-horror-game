@@ -120,6 +120,10 @@ namespace Models {
             this->interactable = is_interactive;
         }
 
+        inline bool is_occluded() const{
+            return is_occluded_;
+        }
+
         inline bool is_in_frustum() const{
 
             if(!is_instanced()){
@@ -152,6 +156,15 @@ namespace Models {
         inline void set_scale(const glm::vec3& s) {
             local_transform = glm::scale(glm::mat4(1.0f), s) * local_transform;
         }
+
+        inline void set_is_occluder(bool value) { 
+            is_occluder_ = value; 
+        }
+
+        bool is_occluder() const { 
+            return is_occluder_; 
+        }
+
 
         inline void set_instance_transforms(const std::vector<glm::mat4> instance_transforms) {
             this->instance_transforms = instance_transforms;
@@ -218,6 +231,8 @@ namespace Models {
         std::vector<bool> instance_in_frustum;
 
         bool inside_frustum_ = true;
+        bool is_occluded_ = false;
+        bool is_occluder_ = false;
         bool instance_data_dirty = true;
 
         void draw_instanced(const glm::mat4& view, const glm::mat4& projection,
