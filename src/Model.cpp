@@ -548,11 +548,11 @@ void Models::Model::draw_depth_instanced(std::shared_ptr<Shader> shader){
 }
 
 void Models::Model::compute_aabb() {
-    // 1) Initialize to extreme opposites
+    // Initialize to extreme opposites
     glm::vec3 world_min(FLT_MAX);
     glm::vec3 world_max(-FLT_MAX);
 
-    // 2) Transform each unique-vertex into world space and accumulate
+    // Transform each unique-vertex into world space and accumulate
     for (auto const& v : unique_vertices) {
         glm::vec4 wc = world_transform * glm::vec4(v.position, 1.0f);
         glm::vec3 w  = glm::vec3(wc);
@@ -560,7 +560,7 @@ void Models::Model::compute_aabb() {
         world_max    = glm::max(world_max, w);
     }
 
-    // 3) If truly planar (min == max in Y), pad by a tiny ε so your sphere
+    // If truly planar (min == max in Y), pad by a tiny ε so your sphere
     //    test doesn’t see it as a zero-thickness plane.
     const float eps = 0.001f;
     if (glm::epsilonEqual(world_min.y, world_max.y, glm::epsilon<float>())) {

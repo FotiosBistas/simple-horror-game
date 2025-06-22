@@ -31,7 +31,7 @@ namespace Game {
         std::string closest_model;
 
         /// Take ownership of this model and register it under `name`.
-        void add_model(std::unique_ptr<Models::Model> model, const std::string& name);
+        void add_model(std::shared_ptr<Models::Model> model, const std::string& name);
         void add_model(Models::Model&& model, const std::string& name);
 
         /// Remove (and destroy) the model registered as `name` (if any).
@@ -41,7 +41,7 @@ namespace Game {
         Models::Model* find_model(const std::string& name) const;
 
         /// Fast, cache-friendly iteration over all models.
-        const std::vector<std::unique_ptr<Models::Model>>& get_models() const;
+        const std::vector<std::shared_ptr<Models::Model>>& get_models() const;
 
         // — Lights API —
         /// Take ownership of this light and register it under `name`.
@@ -56,30 +56,36 @@ namespace Game {
 
         /// Fast, cache-friendly iteration over all lights.
         const std::vector<std::unique_ptr<Light>>& get_lights() const;
+        
+        void add_occluder(std::unique_ptr<Occluder> occluder, const std::string& name);
+        void add_occluder(Occluder&& occluder, const std::string& name); 
+        void remove_occluder(const std::string& name);
+        Occluder* find_occluder(const std::string& name) const;
+        const std::vector<std::unique_ptr<Occluder>>& get_occluders() const;     
 
         unsigned int pages_collected = 0;
         unsigned int pages_collected_to_win = 6;
 
-        void clear_models() {
+        inline void clear_models() {
             models.clear();          // the unique_ptrs—and hence the Model objects—are destroyed
             model_names.clear();     // clear the name list
             model_indices.clear();   // clear the lookup map
         }
 
-        void clear_lights() {
+        inline void clear_lights() {
             lights.clear();
             light_names.clear();
             light_indices.clear();
         }
 
-        void clear_occluders(){
+        inline void clear_occluders() {
             occluders.clear();
             occluder_names.clear();
             occluder_indices.clear();
         }
 
     private:
-        std::vector<std::unique_ptr<Models::Model>> models;
+        std::vector<std::shared_ptr<Models::Model>> models;
         std::vector<std::string>                   model_names;
         std::unordered_map<std::string, size_t>    model_indices;
 

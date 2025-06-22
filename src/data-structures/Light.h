@@ -153,7 +153,7 @@ public:
 
     void bind_shadow_map(std::shared_ptr<Shader> shader, const std::string& base, int index) const;
     void draw_lighting(std::shared_ptr<Shader> shader, const std::string& base, int index) const;
-    void draw_depth_pass(std::shared_ptr<Shader>shader, const std::vector<std::unique_ptr<Models::Model>>& models) const;
+    void draw_depth_pass(std::shared_ptr<Shader>shader, const std::vector<std::shared_ptr<Models::Model>>& models) const;
 private:
     LightType type;
     glm::vec3 position;

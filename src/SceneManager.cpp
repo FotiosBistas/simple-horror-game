@@ -9,7 +9,7 @@
 #include <iostream>
 #include <random>
 
-void Game::GameState::add_model(std::unique_ptr<Models::Model> model, const std::string& name) {
+void Game::GameState::add_model(std::shared_ptr<Models::Model> model, const std::string& name) {
     size_t idx          = models.size();
     model_indices[name] = idx;
     model_names.push_back(name);
@@ -18,7 +18,7 @@ void Game::GameState::add_model(std::unique_ptr<Models::Model> model, const std:
 
 void Game::GameState::add_model(Models::Model&& model, const std::string& name) {
     // construct the heap‐object by moving the caller’s model in
-    auto ptr = std::make_unique<Models::Model>(std::move(model));
+    auto ptr = std::make_shared<Models::Model>(std::move(model));
     // and then register exactly as before:
     size_t idx          = models.size();
     model_indices[name] = idx;
@@ -51,7 +51,7 @@ Models::Model* Game::GameState::find_model(const std::string& name) const {
     return models[it->second].get();
 }
 
-const std::vector<std::unique_ptr<Models::Model>>& Game::GameState::get_models() const {
+const std::vector<std::shared_ptr<Models::Model>>& Game::GameState::get_models() const {
     return models;
 }
 
@@ -99,6 +99,50 @@ Light* Game::GameState::find_light(const std::string& name) const {
 
 const std::vector<std::unique_ptr<Light>>& Game::GameState::get_lights() const {
     return lights;
+}
+
+void Game::GameState::add_occluder(std::unique_ptr<Occluder> occluder, const std::string& name) {
+    size_t idx = occluders.size();
+    occluder_indices[name] = idx;
+    occluder_names.push_back(name);
+    occluders.push_back(std::move(occluder));
+}
+
+void Game::GameState::add_occluder(Occluder&& occluder, const std::string& name) {
+    auto ptr = std::make_unique<Occluder>(std::move(occluder));
+    size_t idx = occluders.size();
+    occluder_indices[name] = idx;
+    occluder_names.push_back(name);
+    occluders.push_back(std::move(ptr));
+}
+
+void Game::GameState::remove_occluder(const std::string& name) {
+    auto it = occluder_indices.find(name);
+    if (it == occluder_indices.end())
+        return;
+
+    size_t idx = it->second;
+    size_t last = occluders.size() - 1;
+
+    if (idx != last) {
+        std::swap(occluders[idx], occluders[last]);
+        std::swap(occluder_names[idx], occluder_names[last]);
+        occluder_indices[occluder_names[idx]] = idx;
+    }
+    occluders.pop_back();
+    occluder_names.pop_back();
+    occluder_indices.erase(it);
+}
+
+Occluder* Game::GameState::find_occluder(const std::string& name) const {
+    auto it = occluder_indices.find(name);
+    if (it == occluder_indices.end())
+        return nullptr;
+    return occluders[it->second].get();
+}
+
+const std::vector<std::unique_ptr<Occluder>>& Game::GameState::get_occluders() const {
+    return occluders;
 }
 
 void Game::SceneManager::initialise_opengl_sdl() {

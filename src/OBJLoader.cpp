@@ -371,14 +371,14 @@ void ObjectLoader::OBJLoader::debug_dump() const {
     std::cout << " ["<<i<<"] '"<< m_groups[i] <<"'\n";
   }
 
-  // std::cout << "Faces (" << m_faces.size() << "):\n";
-  // for (size_t i = 0; i < m_faces.size(); ++i) {
-  //   auto const& F = m_faces[i];
-  //   std::cout << " ["<<i<<"] mat="<<F.material_id
-  //             << " grp="<<F.group_id
-  //             << " verts=("
-  //                <<F.vertices.x<<","<<F.vertices.y<<","<<F.vertices.z<<","<<F.vertices.w<<")\n";
-  // }
+  std::cout << "Faces (" << m_faces.size() << "):\n";
+  for (size_t i = 0; i < m_faces.size(); ++i) {
+    auto const& F = m_faces[i];
+    std::cout << " ["<<i<<"] mat="<<F.material_id
+              << " grp="<<F.group_id
+              << " verts=("
+                 <<F.vertices.x<<","<<F.vertices.y<<","<<F.vertices.z<<","<<F.vertices.w<<")\n";
+  }
   std::cout << "======================\n\n";
 }
 
@@ -518,20 +518,20 @@ void ObjectLoader::OBJLoader::read_mtllib(const char* buff, const std::string& o
 }
 
 void ObjectLoader::OBJLoader::add_new_group(const char *buff, int &current_group_id) {
-  const char* p = buff;
-  while (*p && std::isspace(*p)) ++p;
+    const char* p = buff;
+    while (*p && std::isspace(*p)) ++p;
 
-  const char* q = p;
-  while (*q && !std::isspace(*q) && *q != '#') ++q;
+    const char* q = p;
+    while (*q && !std::isspace(*q) && *q != '#') ++q;
 
-  std::string name{ p, size_t(q - p) };
-  auto it = m_group_name_to_id.find(name);
-  if (it == m_group_name_to_id.end()) {
-    int id = m_groups.size();
-    m_groups.push_back(name);
-    m_group_name_to_id[name] = id;
-    current_group_id = id;
-  } else {
-    current_group_id = it->second;
-  }
+    std::string name{ p, size_t(q - p) };
+    auto it = m_group_name_to_id.find(name);
+    if (it == m_group_name_to_id.end()) {
+        int id = m_groups.size();
+        m_groups.push_back(name);
+        m_group_name_to_id[name] = id;
+        current_group_id = id;
+    } else {
+        current_group_id = it->second;
+    }
 }

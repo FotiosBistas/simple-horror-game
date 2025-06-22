@@ -7,8 +7,8 @@ using namespace GlHelpers;
 
 class Occluder {
 private:
-    std::shared_ptr<Models::Model> occluder;
-    std::vector<std::shared_ptr<Models::Model>> occludees;
+    std::weak_ptr<Models::Model> occluder;
+    std::vector<std::weak_ptr<Models::Model>> occludees;
 
     GLuint   depth_map_fbo;
     GLuint   depth_map;
@@ -20,15 +20,17 @@ public:
 
     Occluder(size_t screen_width, size_t screen_height);
 
-    inline void set_occluder(std::shared_ptr<Models::Model> model){
+    void initiliaze_occludees(const std::vector<std::shared_ptr<Models::Model>>& model);
+
+    inline void set_occluder(std::weak_ptr<Models::Model> model){
         this->occluder = model;
     }
 
-    inline std::shared_ptr<Models::Model> get_occluder() const{
+    inline std::weak_ptr<Models::Model> get_occluder() const{
         return occluder;
     }
 
-    inline void add_occludee(std::shared_ptr<Models::Model> model){
+    inline void add_occludee(std::weak_ptr<Models::Model> model){
         occludees.push_back(model);
     }
 

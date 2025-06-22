@@ -91,7 +91,7 @@ void Light::draw_lighting(std::shared_ptr<Shader> shader, const std::string& bas
 
 void Light::draw_depth_pass(
     std::shared_ptr<Shader> shader,
-    const std::vector<std::unique_ptr<Models::Model>>& models
+    const std::vector<std::shared_ptr<Models::Model>>& models
 ) const {
     GLCall(glViewport(0, 0, shadow_width, shadow_height));
     GLCall(glBindFramebuffer(GL_FRAMEBUFFER, depth_map_fbo));
